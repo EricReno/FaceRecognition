@@ -24,5 +24,5 @@ max ACC: 0.99881, threshold = 0.76000
        controls 
        width="100%" 
        height="auto" 
-       style="max-width: 720px; height: auto; display: block; object-fit: contain;">
+       style="max-width: 320px; height: auto; display: block; object-fit: contain;">
 </video>
