@@ -20,4 +20,4 @@ CASIA-FaceV5-CUT：2500 160*160
 
 max ACC: 0.99881, threshold = 0.76000
 
-[https://github.com/user-attachments/assets/d60fad0e-c928-4a85-94f1-0636732b038e](https://github.com/user-attachments/assets/2a504739-9805-41bc-9785-1eb7426ad242)
+https://github.com/user-attachments/assets/d60fad0e-c928-4a85-94f1-0636732b038e
