@@ -38,6 +38,8 @@ def main():
         output1 = recognition_session.run(['output'], {'input': photo1})[0]
 
         index_list = numpy.arange(index+5, len(images_list)).tolist()
+        if len(index_list) < 2:
+            break
         id3, id4 = random.sample(index_list, 2)
         indexs = [index, index+3, id3, id4]
 
@@ -59,6 +61,8 @@ def main():
             final_image = numpy.concatenate((show_image, text_image), axis=0)
 
             cv2.imshow('image', final_image)
+
+            print(final_image.shape)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
 
