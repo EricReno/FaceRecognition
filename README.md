@@ -27,6 +27,3 @@ max ACC: 0.99881, threshold = 0.76000
        height="auto" 
        style="max-width: 320px; height: auto; display: block; object-fit: contain;">
 </video>
-
-
-https://github.com/user-attachments/assets/d60fad0e-c928-4a85-94f1-0636732b038e
