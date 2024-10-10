@@ -39,7 +39,7 @@ def parse_args():
     
     # Training settings
     parser.add_argument('--batch_size',
-                        default=72,
+                        default=96,
                         type=int,
                         help='Batch size used during training (per GPU).')
     
@@ -59,7 +59,7 @@ def parse_args():
                         help='Epoch interval to save model checkpoints.')
     
     # Optimizer settings
-    parser.add_argument('--optimizer',             
+    parser.add_argument('--optimizer',
                         default='sgd',
                         type=str,
                         help='Base learning rate.')
@@ -95,7 +95,7 @@ def parse_args():
                         help='Path to the initial model weights.')
 
     parser.add_argument('--resume_weight_path',         
-                        default='None',                
+                        default='best.pth',                
                         type=str,
                         help='Path to the checkpoint from which to resume training.')
     

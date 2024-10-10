@@ -18,6 +18,7 @@ def train():
     writer = SummaryWriter('deploy')
     print("Setting Arguments.. : ", args)
     print("----------------------------------------------------------")
+    torch.manual_seed(args.seed)
 
     if args.cuda and torch.cuda.is_available():
         device = torch.device('cuda')
@@ -38,7 +39,7 @@ def train():
     
     evaluator = build_eval(args, val_dataset, device)
     
-    optimizer, start_epoch = build_optimizer(args, model)
+    optimizer, start_epoch, max_Acc = build_optimizer(args, model)
 
     lr_scheduler, lf = build_lambda_lr_scheduler(args, optimizer)
     if args.resume_weight_path and args.resume_weight_path != 'None':
@@ -48,7 +49,6 @@ def train():
     
     # ----------------------- Train --------------------------------
     print('==============================')
-    max_Acc = 0
     start = time.time()
     for epoch in range(start_epoch, args.epochs_total+1):
         model.train()
@@ -101,16 +101,15 @@ def train():
             ckpt_path = os.path.join(os.getcwd(), 'deploy', 'best.pth')
             if not os.path.exists(os.path.dirname(ckpt_path)): 
                 os.makedirs(os.path.dirname(ckpt_path))
-            
-            with torch.no_grad():
-                Acc = evaluator.eval(model, epoch)
+           
+            Acc = evaluator.eval(model, epoch)
             writer.add_scalar('Acc', Acc, epoch)
 
             if Acc > max_Acc:
                 torch.save({
                         'model': model.state_dict(),
                         'optimizer': optimizer.state_dict(),
-                        'Acc':Acc,
+                        'Acc': Acc,
                         'epoch': epoch,
                         'args': args},
                         ckpt_path)

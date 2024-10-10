@@ -26,10 +26,11 @@ def collate_fn(batch):
 
 def build_dataset(args, is_train, num_classes):
     dataset = FACEDataset(is_train = is_train,
-                           image_size=args.image_size, 
+                           image_size=args.image_size,
                            data_dir = args.data_root,
                            image_set = args.image_set,
-                           num_classes = num_classes
+                           num_classes = num_classes,
+                           seed = args.seed
                            )
     return dataset
 

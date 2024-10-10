@@ -33,6 +33,7 @@ def build_optimizer(args, model, resume=None):
     optimizer.add_param_group({"params": param_dicts[1], "weight_decay": 0.0})
     optimizer.add_param_group({"params": param_dicts[2], "weight_decay": args.weight_decay})
 
+    max_Acc = 0
     start_epoch = 0
     if args.resume_weight_path and args.resume_weight_path != 'None':
         ckpt_path = os.path.join('deploy', args.resume_weight_path)
@@ -43,8 +44,9 @@ def build_optimizer(args, model, resume=None):
             print('Load optimizer from the checkpoint: ', args.resume_weight_path)
             optimizer.load_state_dict(checkpoint_state_dict)
             start_epoch = checkpoint.pop("epoch") + 1
+            max_Acc = checkpoint.pop('Acc')
             del checkpoint, checkpoint_state_dict
         except:
             print("No optimzier in the given checkpoint.")
     
-    return optimizer, start_epoch
+    return optimizer, start_epoch, max_Acc

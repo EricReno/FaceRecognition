@@ -20,6 +20,9 @@ def setup_inference(cuda, onnx):
     return onnxruntime.InferenceSession(onnx, providers=providers)
 
 def main():
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    video = cv2.VideoWriter('result.mp4', fourcc, 1, (320, 200))
+
     args = parse_args()
 
     recognition_session = setup_inference(args.cuda, args.recognition_onnx)
@@ -41,7 +44,7 @@ def main():
         if len(index_list) < 2:
             break
         id3, id4 = random.sample(index_list, 2)
-        indexs = [index, index+3, id3, id4]
+        indexs = [index+2, index+1, id3, id4]
 
         ## Load images and targets
         for index in indexs:
@@ -62,9 +65,12 @@ def main():
 
             cv2.imshow('image', final_image)
 
-            print(final_image.shape)
+            video.write(final_image)
+            
             cv2.waitKey(0)
             cv2.destroyAllWindows()
+    
+    video.release()
 
 if __name__ == '__main__':
     main()

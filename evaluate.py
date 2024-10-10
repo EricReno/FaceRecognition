@@ -23,16 +23,16 @@ class Evaluator():
 
         for i in range(len(self.dataset)):
             images, label = self.dataset[i]
-            with torch.no_grad():
-                image_a =  torch.from_numpy(images[0]).float().unsqueeze(0).to(self.device)
-                image_p =  torch.from_numpy(images[1]).float().unsqueeze(0).to(self.device)
-                image_n =  torch.from_numpy(images[2]).float().unsqueeze(0).to(self.device)
+            image_a =  torch.from_numpy(images[0]).float().unsqueeze(0).to(self.device)
+            image_p =  torch.from_numpy(images[1]).float().unsqueeze(0).to(self.device)
+            image_n =  torch.from_numpy(images[2]).float().unsqueeze(0).to(self.device)
 
+            with torch.no_grad():
                 out_a, out_p, out_n = model(image_a), model(image_p), model(image_n)
 
-                dist_ap = torch.sqrt(torch.sum((out_a - out_p) ** 2, 1))
-                dist_an = torch.sqrt(torch.sum((out_a - out_n) ** 2, 1))
-                dist_pn = torch.sqrt(torch.sum((out_p - out_n) ** 2, 1))
+            dist_ap = torch.sqrt(torch.sum((out_a - out_p) ** 2, 1))
+            dist_an = torch.sqrt(torch.sum((out_a - out_n) ** 2, 1))
+            dist_pn = torch.sqrt(torch.sum((out_p - out_n) ** 2, 1))
 
             labels.extend([True, False, False])
             distances.extend([dist_ap.data.cpu().numpy()[0],
@@ -47,19 +47,9 @@ class Evaluator():
 
         return labels, distances        
         
-    def calculate_accuracy(self, threshold, dist, actual_issame):
-        predict_issame = np.less(dist, threshold)
-        tp = np.sum(np.logical_and(predict_issame, actual_issame))
-        fp = np.sum(np.logical_and(predict_issame, np.logical_not(actual_issame)))
-        tn = np.sum(np.logical_and(np.logical_not(predict_issame), np.logical_not(actual_issame)))
-        fn = np.sum(np.logical_and(np.logical_not(predict_issame), actual_issame))
+    def eval(self, model, epoch):     
+        model = model.eval()
 
-        tpr = 0 if (tp+fn==0) else float(tp) / float(tp+fn)
-        fpr = 0 if (fp+tn==0) else float(fp) / float(fp+tn)
-        acc = float(tp+tn)/dist.size
-        return tpr, fpr, acc
-
-    def eval(self, model, epoch):        
         labels, distances = self.inference(model)
         assert(len(labels) == len(distances))
         thresholds = np.arange(0, 3, 0.01)
@@ -72,8 +62,6 @@ class Evaluator():
             tn = np.sum(np.logical_and(np.logical_not(predict_issame), np.logical_not(labels)))
             fn = np.sum(np.logical_and(np.logical_not(predict_issame), labels))
 
-            tpr = 0 if (tp+fn==0) else float(tp) / float(tp+fn)
-            fpr = 0 if (fp+tn==0) else float(fp) / float(fp+tn)
             accuracy[threshold_idx] = float(tp+tn)/distances.size
 
         print('')
@@ -86,7 +74,7 @@ class Evaluator():
 
 def build_eval(args, dataset, device):
     evaluator = Evaluator(
-        device   =device,
+        device   = device,
         dataset  = dataset,
         visualization = args.eval_visualization)
     
@@ -114,8 +102,9 @@ if __name__ == "__main__":
                             weights_only = False)
     model.load_state_dict(state_dict["model"])
     print('Epoch:', state_dict['epoch'])
-    print('Acc:', state_dict['Acc'])
+    print('Acc: %2.5f' %(state_dict['Acc']))
 
     # VOC evaluation
     evaluator = build_eval(args, val_dataset, device)
+
     acc = evaluator.eval(model, state_dict['epoch'])
