@@ -94,13 +94,13 @@ def parse_args():
                         type=str,
                         help='Path to the initial model weights.')
 
-    parser.add_argument('--resume_weight_path',         
-                        default='best.pth',                
+    parser.add_argument('--resume_weight_path',
+                        default='None',        
                         type=str,
                         help='Path to the checkpoint from which to resume training.')
     
-    parser.add_argument('--eval_visualization',         
-                        default=False,                
+    parser.add_argument('--eval_visualization',
+                        default=False,
                         type=bool,
                         help='Whether to visualize the evaluation results.')
 

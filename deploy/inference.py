@@ -59,7 +59,7 @@ def main():
             show_image = numpy.concatenate((anchor_image, current_image), axis=1)
 
             text_image = numpy.zeros((40, show_image.shape[1], 3), dtype=numpy.uint8)
-            text = 'Yes' if distance < 0.77000 else 'No'
+            text = 'Yes' if distance < 0.81000 else 'No'
             cv2.putText(text_image, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
             final_image = numpy.concatenate((show_image, text_image), axis=0)
 

@@ -18,6 +18,7 @@ CASIA-FaceV5-CUT：2500 160*160
 
 总共有500个不同实例，每个实例五张不同角度人脸图像
 
-max ACC: 0.99881, threshold = 0.76000
+Val: 250, max ACC: 0.96667, threshold = 0.95000
+Train: 2250, max ACC: 0.97585, threshold = 0.81000
 
 https://github.com/user-attachments/assets/d60fad0e-c928-4a85-94f1-0636732b038e
