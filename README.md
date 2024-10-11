@@ -21,4 +21,5 @@ CASIA-FaceV5-CUT：2500 160*160
 Val: 250, max ACC: 0.96667, threshold = 0.95000
 Train: 2250, max ACC: 0.97585, threshold = 0.81000
 
-https://github.com/user-attachments/assets/d60fad0e-c928-4a85-94f1-0636732b038e
+
+https://github.com/user-attachments/assets/e1feebb3-c521-4d31-a23d-801dfab28457

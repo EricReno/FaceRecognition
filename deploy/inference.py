@@ -5,6 +5,17 @@ import random
 import argparse
 import onnxruntime
 
+## 数据集: CASIA-FaceV5-CUT
+# 为CASIA-FaceV5的剪裁版，仅保留头像，去除背景框。
+
+# CASIA-FaceV5：2500 640*480 
+# CASIA-FaceV5-CUT：2500 160*160
+
+# 总共有500个不同实例，每个实例五张不同角度人脸图像
+
+# Val: 250, max ACC: 0.96667, threshold = 0.95000
+# Train: 2250, max ACC: 0.97585, threshold = 0.81000
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Inference Face')
 
@@ -74,3 +85,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
